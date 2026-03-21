@@ -73,3 +73,4 @@ def simular_pagamento(
     token: str = Depends(verificar_token)
 ):
     return services.simular_pagamento(db=db, pagamento_in=pagamento)
+

@@ -1,0 +1,135 @@
+{
+	"info": {
+		"name": "API Raízes do Nordeste",
+		"description": "Coleção de testes cobrindo os 13 cenários obrigatórios do MVP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Auth",
+			"item": [
+				{
+					"name": "T01 - Login Válido",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"email\": \"cliente@teste.com\",\n  \"senha\": \"senha123\"\n}"},
+						"url": {"raw": "http://localhost:8000/auth/login","protocol": "http","host": ["localhost"],"port": "8000","path": ["auth","login"]}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Pedidos",
+			"item": [
+				{
+					"name": "T08 - Criar Pedido Válido",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-CLIENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"unidadeId\": 1,\n  \"canalPedido\": \"APP\",\n  \"formaPagamento\": \"PIX\",\n  \"itens\": [\n    {\n      \"produtoId\": 1,\n      \"quantidade\": 2\n    }\n  ]\n}"},
+						"url": {"raw": "http://localhost:8000/pedidos","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos"]}
+					}
+				},
+				{
+					"name": "T10 - Atualizar Status",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-GERENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"status\": \"COZINHA\"\n}"},
+						"url": {"raw": "http://localhost:8000/pedidos/1/status","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos","1","status"]}
+					}
+				},
+				{
+					"name": "T13 - Listar por Canal",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization","value": "Bearer fake-jwt-token-GERENTE"}],
+						"url": {"raw": "http://localhost:8000/pedidos?canalPedido=APP","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos"],"query": [{"key": "canalPedido","value": "APP"}]}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Pagamentos",
+			"item": [
+				{
+					"name": "T09 - Pagamento Mock Aprovado",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-CLIENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"pedidoId\": 1,\n  \"valorTotal\": 37.80,\n  \"formaPagamento\": \"PIX\"\n}"},
+						"url": {"raw": "http://localhost:8000/pagamentos/simular","protocol": "http","host": ["localhost"],"port": "8000","path": ["pagamentos","simular"]}
+					}
+				},
+				{
+					"name": "T11 - Pagamento Mock Recusado",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-CLIENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"pedidoId\": 1,\n  \"valorTotal\": 37.80,\n  \"formaPagamento\": \"ERRO\"\n}"},
+						"url": {"raw": "http://localhost:8000/pagamentos/simular","protocol": "http","host": ["localhost"],"port": "8000","path": ["pagamentos","simular"]}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Erros e Validacoes",
+			"item": [
+				{
+					"name": "T02 - Acesso sem Token (401)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {"raw": "http://localhost:8000/pedidos","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos"]}
+					}
+				},
+				{
+					"name": "T03 - Acesso sem Permissao (403)",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-CLIENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"status\": \"COZINHA\"\n}"},
+						"url": {"raw": "http://localhost:8000/pedidos/1/status","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos","1","status"]}
+					}
+				},
+				{
+					"name": "T04 - Campo Ausente (422)",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-CLIENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"unidadeId\": 1,\n  \"formaPagamento\": \"PIX\",\n  \"itens\": [{\"produtoId\": 1, \"quantidade\": 1}]\n}"},
+						"url": {"raw": "http://localhost:8000/pedidos","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos"]}
+					}
+				},
+				{
+					"name": "T05 - Formato Inválido (422)",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-CLIENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"unidadeId\": 1,\n  \"canalPedido\": \"APP\",\n  \"formaPagamento\": \"PIX\",\n  \"itens\": [{\"produtoId\": 1, \"quantidade\": -2}]\n}"},
+						"url": {"raw": "http://localhost:8000/pedidos","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos"]}
+					}
+				},
+				{
+					"name": "T06 - Produto Inexistente (404)",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-CLIENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"unidadeId\": 1,\n  \"canalPedido\": \"APP\",\n  \"formaPagamento\": \"PIX\",\n  \"itens\": [{\"produtoId\": 9999, \"quantidade\": 1}]\n}"},
+						"url": {"raw": "http://localhost:8000/pedidos","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos"]}
+					}
+				},
+				{
+					"name": "T07 - Estoque Insuficiente (409)",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"},{"key": "Authorization","value": "Bearer fake-jwt-token-CLIENTE"}],
+						"body": {"mode": "raw","raw": "{\n  \"unidadeId\": 1,\n  \"canalPedido\": \"APP\",\n  \"formaPagamento\": \"PIX\",\n  \"itens\": [{\"produtoId\": 2, \"quantidade\": 5}]\n}"},
+						"url": {"raw": "http://localhost:8000/pedidos","protocol": "http","host": ["localhost"],"port": "8000","path": ["pedidos"]}
+					}
+				}
+			]
+		}
+	]
+}
