@@ -130,6 +130,19 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "5. Auditoria",
+			"item": [
+				{
+					"name": "T12 - Auditoria/Logs de Ação",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization","value": "Bearer fake-jwt-token-GERENTE"}],
+						"url": {"raw": "http://localhost:8000/logs?acao=CRIACAO_PEDIDO","protocol": "http","host": ["localhost"],"port": "8000","path": ["logs"],"query": [{"key": "acao","value": "CRIACAO_PEDIDO"}]}
+					}
+				}
+			]
 		}
 	]
 }

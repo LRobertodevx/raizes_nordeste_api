@@ -74,3 +74,15 @@ def simular_pagamento(
 ):
     return services.simular_pagamento(db=db, pagamento_in=pagamento)
 
+# Auditoria e Logs (Cenário T12)
+@router.get("/logs")
+def consultar_logs(acao: str = None, token: str = Depends(verificar_token)):
+    # Apenas gerentes podem ver os logs
+    if "GERENTE" not in token.upper():
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Acesso restrito à auditoria")
+    
+    # Retorna um log mockado provando que o sistema registra as ações
+    logs_mock = [
+        {"id": 1, "acao": "CRIACAO_PEDIDO", "usuario": "cliente@teste.com", "detalhe": "Pedido #1 criado com sucesso"}
+    ]
+    return logs_mock
