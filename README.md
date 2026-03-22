@@ -37,15 +37,20 @@ python -m venv venv
 # Instale as dependências
 pip install -r requirements.txt
 ```
-### 3. Popular o Banco de Dados (Seed)
-Para criar o banco de dados e inserir os usuários, produtos e estoques iniciais para teste, execute:
+
+### 3. Variáveis de Ambiente (.env)
+Crie um arquivo chamado `.env` na raiz do projeto e copie o conteúdo do arquivo `.env.example` para dentro dele.
+(Nota: O banco de dados SQLite será gerado automaticamente neste caminho).
+
+### 4. Popular o Banco de Dados (Seed e Migrations)
+O nosso script de seed já está configurado para atuar como uma Migration inicial, criando as tabelas automaticamente antes de inserir os dados. Execute:
 
 ```bash
 python seed.py
 ```
 (Você verá a mensagem: "✅ Seed concluído com sucesso!")
 
-### 4. Iniciar o Servidor
+### 5. Iniciar o Servidor
 Execute o comando abaixo para ligar a API:
 
 ```bash
