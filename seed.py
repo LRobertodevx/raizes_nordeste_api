@@ -4,6 +4,9 @@ from app.infrastructure.database import SessionLocal, Base, engine
 from app.infrastructure import models
 
 def popular_banco():
+
+    Base.metadata.create_all(bind=engine)
+
     db = SessionLocal()
     try:
         # Verifica se já tem usuários para não duplicar
