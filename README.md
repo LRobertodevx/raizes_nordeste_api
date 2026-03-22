@@ -20,7 +20,7 @@ Abra o terminal e execute os seguintes comandos:
 
 ```bash
 # Clone o repositório
-git clone [https://github.com/SEU_USUARIO/raizes_nordeste_api.git](https://github.com/SEU_USUARIO/raizes_nordeste_api.git)
+git clone https://github.com/LRobertodevx/raizes_nordeste_api.git
 cd raizes_nordeste_api
 
 # Crie o ambiente virtual
